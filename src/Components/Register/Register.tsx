@@ -11,9 +11,11 @@ import {
 import SignLight from './assets/SignLight.png';
 import SignDark from './assets/SignDark.png';
 import CustomButton from '../../Customs/CustomButton';
+import {useTheme} from '../../context/ThemeContext';
+import CustomHeader from '../SignUp/CustomHeader';
 
 const Register = ({navigation}) => {
-  const theme = useColorScheme();
+  const theme = useTheme();
 
   const navLogin = () => {
     navigation.navigate('Login');
@@ -22,92 +24,54 @@ const Register = ({navigation}) => {
     navigation.navigate('SignUpStack');
   };
   return (
-    <ScrollView
-      style={[
-        {
-          backgroundColor:
-            theme === 'dark' ? GlobalColors.dark.bg : GlobalColors.light.bg,
-        },
-        styles.main,
-      ]}>
-      <View
-        style={[
-          {
-            backgroundColor: GlobalColors.light.Border,
-          },
-          styles.stepsCont,
-        ]}>
-        <View
+    <CustomHeader>
+      <Image source={theme ? SignDark : SignLight} style={styles.img} />
+      <View>
+        <Text
           style={[
             {
-              backgroundColor: GlobalColors.light.BorderAccent,
+              color: theme.ContentPrimary,
             },
-            styles.step,
+            styles.title,
+          ]}>
+          Create Your Coinpay account
+        </Text>
+        <Text
+          style={[
+            {
+              color: theme.ContentPrimary,
+            },
+            styles.discription,
+          ]}>
+          Coinpay is a powerful tool that allows you to easily send, receive,
+          and track all your transactions.
+        </Text>
+      </View>
+      <View>
+        <CustomButton
+          title="Sign Up"
+          onPress={() => navSignUp()}
+          style={styles.customButtonOne}
+        />
+        <CustomButton
+          title="Log In"
+          onPress={() => navLogin()}
+          style={[
+            {
+              backgroundColor: theme.bg,
+              borderColor: theme.primaryColor,
+            },
+            styles.customButtonTwo,
           ]}
+          textStyle={{
+            color: theme.primaryColor,
+          }}
         />
       </View>
-      <Image
-        source={theme === 'dark' ? SignDark : SignLight}
-        style={styles.img}
-      />
       <Text
         style={[
           {
-            color:
-              theme === 'dark'
-                ? GlobalColors.dark.ContentPrimary
-                : GlobalColors.light.ContentPrimary,
-          },
-          styles.title,
-        ]}>
-        Create Your Coinpay account
-      </Text>
-      <Text
-        style={[
-          {
-            color:
-              theme === 'dark'
-                ? GlobalColors.dark.ContentPrimary
-                : GlobalColors.light.ContentPrimary,
-          },
-          styles.discription,
-        ]}>
-        Coinpay is a powerful tool that allows you to easily send, receive, and
-        track all your transactions.
-      </Text>
-      <CustomButton
-        title="Sign Up"
-        onPress={() => navSignUp()}
-        style={styles.customButtonOne}
-      />
-      <CustomButton
-        title="Log In"
-        onPress={() => navLogin()}
-        style={[
-          {
-            backgroundColor:
-              theme === 'dark' ? GlobalColors.dark.bg : GlobalColors.light.bg,
-            borderColor:
-              theme === 'dark'
-                ? GlobalColors.dark.ContentAccent
-                : GlobalColors.light.primaryColor,
-          },
-          styles.customButtonTwo,
-        ]}
-        textStyle={{
-          color:
-            theme === 'dark'
-              ? GlobalColors.dark.ContentAccent
-              : GlobalColors.light.primaryColor,
-        }}
-      />
-      <Text
-        style={[
-          {
-            color:
-              theme === 'dark'
-                ? GlobalColors.dark.ContentPrimary
-                : GlobalColors.light.ContentPrimary,
+            color: theme.ContentPrimary,
           },
           styles.agree,
         ]}>
@@ -116,10 +80,7 @@ const Register = ({navigation}) => {
           style={[
             styles.conditions,
             {
-              color:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentAccent
-                  : GlobalColors.light.primaryColor,
+              color: theme.primaryColor,
             },
           ]}>
           {' '}
@@ -130,17 +91,14 @@ const Register = ({navigation}) => {
           style={[
             styles.conditions,
             {
-              color:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentAccent
-                  : GlobalColors.light.primaryColor,
+              color: theme.primaryColor,
             },
           ]}>
           {' '}
           Privacy Policy
         </Text>
       </Text>
-    </ScrollView>
+    </CustomHeader>
   );
 };
 
@@ -181,7 +139,6 @@ const styles = StyleSheet.create({
   },
   img: {
     width: responsiveScreenWidth(100),
-    resizeMode: 'contain',
     alignSelf: 'center',
   },
   main: {flex: 1, gap: responsiveScreenWidth(5)},

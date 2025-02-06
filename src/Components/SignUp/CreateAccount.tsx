@@ -3,7 +3,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from 'react-native';
 import React, {useState} from 'react';
@@ -16,57 +15,42 @@ import {GlobalColors} from './../../constants/Colors';
 import {CountryPicker} from 'react-native-country-codes-picker';
 import CustomButton from '../../Customs/CustomButton';
 import CustomModal from './CustomModal';
+import {useTheme} from '../../context/ThemeContext';
+import {getOtp} from '../../api/api';
+import {useFinTech} from '../../context/Context';
+import CustomHeader from './CustomHeader';
 
 const CreateAccount = ({navigation}) => {
-  const theme = useColorScheme() || 'light';
+  const theme = useTheme();
   const [show, setShow] = useState(false);
   const [flag, setFlag] = useState('🇮🇳');
   const [countryCode, setCountryCode] = useState('+91');
   const [phone, setPhone] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
+  const {phoneNo, setPhoneNo} = useFinTech();
 
   const setModal = (visible: boolean) => {
     setModalVisible(visible);
   };
 
-  const navOtp=()=>{
-    setModalVisible(false)
-    navigation.navigate('ConfirmOtp')
-  }
+  const navOtp = async () => {
+    try {
+      const data = await getOtp(phone);
+      if (data.success) {
+        setPhoneNo(phone.toString());
+        setModalVisible(false);
+        navigation.navigate('ConfirmOtp');
+      }
+    } catch (err) {}
+  };
 
   return (
-    <View
-      style={[
-        {
-          backgroundColor:
-            theme === 'dark' ? GlobalColors.dark.bg : GlobalColors.light.bg,
-        },
-        styles.main,
-      ]}>
-      <View
-        style={[
-          {
-            backgroundColor: GlobalColors.light.Border,
-          },
-          styles.stepsCont,
-        ]}>
-        <View
-          style={[
-            {
-              backgroundColor: GlobalColors.light.BorderAccent,
-            },
-            styles.step,
-          ]}
-        />
-      </View>
+    <CustomHeader>
       <View style={styles.view}>
         <Text
           style={[
             {
-              color:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentPrimary
-                  : GlobalColors.light.ContentPrimary,
+              color: theme.ContentPrimary,
             },
             styles.title,
           ]}>
@@ -75,17 +59,22 @@ const CreateAccount = ({navigation}) => {
         <Text
           style={[
             {
-              color:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentPrimary
-                  : GlobalColors.light.ContentPrimary,
+              color: theme.ContentPrimary,
             },
             styles.head,
           ]}>
           Enter your mobile number to create an account
         </Text>
         <View style={styles.phone}>
-          <Text style={styles.phoneHead}>Phone</Text>
+          <Text
+            style={[
+              styles.phoneHead,
+              {
+                color: theme.ContentPrimary,
+              },
+            ]}>
+            Phone
+          </Text>
           <View style={{flexDirection: 'row', gap: 10}}>
             <TouchableOpacity
               onPress={() => setShow(true)}
@@ -95,19 +84,13 @@ const CreateAccount = ({navigation}) => {
                 borderWidth: 1,
                 padding: 10,
                 borderRadius: 10,
-                borderColor:
-                  theme === 'dark'
-                    ? GlobalColors.dark.Border
-                    : GlobalColors.light.Border,
+                borderColor: theme.Border,
                 alignItems: 'center',
                 justifyContent: 'center',
               }}>
               <Text
                 style={{
-                  color:
-                    theme === 'dark'
-                      ? GlobalColors.dark.ContentPrimary
-                      : GlobalColors.light.ContentPrimary,
+                  color: theme.ContentPrimary,
                   fontSize: responsiveScreenFontSize(1.8),
                   alignSelf: 'center',
                 }}>
@@ -118,27 +101,18 @@ const CreateAccount = ({navigation}) => {
               style={[
                 styles.input,
                 {
-                  borderColor:
-                    theme === 'dark'
-                      ? GlobalColors.dark.Border
-                      : GlobalColors.light.Border,
-                  color:
-                    theme === 'dark'
-                      ? GlobalColors.dark.ContentPrimary
-                      : GlobalColors.light.ContentPrimary,
+                  borderColor: theme.Border,
+                  color: theme.ContentPrimary,
                 },
               ]}
               placeholder="Mobile Number"
-              placeholderTextColor={
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentDisabled
-                  : GlobalColors.light.ContentDisabled
-              }
+              placeholderTextColor={theme.ContentDisabled}
               keyboardType="phone-pad"
               maxLength={10}
               onChangeText={setPhone}
             />
           </View>
+
           <CountryPicker
             lang="en"
             show={show}
@@ -146,6 +120,28 @@ const CreateAccount = ({navigation}) => {
               setFlag(item.flag);
               setCountryCode(item.dial_code);
               setShow(false);
+            }}
+            style={{
+              modal: {
+                height: responsiveScreenHeight(50),
+                backgroundColor: theme.bg,
+              },
+              itemsList: {
+                backgroundColor: theme.bg,
+              },
+              countryButtonStyles: {
+                backgroundColor: theme.bg,
+              },
+              countryName: {
+                color: theme.ContentPrimary,
+              },
+              textInput: {
+                backgroundColor: theme.bg,
+                color: theme.ContentPrimary,
+              },
+              searchMessageText: {
+                color: theme.ContentPrimary,
+              },
             }}
           />
         </View>
@@ -161,8 +157,15 @@ const CreateAccount = ({navigation}) => {
           disabled={phone.length !== 10}
         />
       </View>
-     <CustomModal visible={modalVisible} code={countryCode} phone={phone} theme={theme} setModalVisible={setModal} navOtp={navOtp} />
-    </View>
+      <CustomModal
+        visible={modalVisible}
+        code={countryCode}
+        phone={phone}
+        theme={theme}
+        setModalVisible={setModal}
+        navOtp={navOtp}
+      />
+    </CustomHeader>
   );
 };
 
@@ -199,7 +202,7 @@ const styles = StyleSheet.create({
   },
   phone: {
     marginTop: responsiveScreenHeight(2),
-    gap: responsiveScreenHeight(.75),
+    gap: responsiveScreenHeight(0.75),
     flex: 0.75,
   },
   phoneHead: {

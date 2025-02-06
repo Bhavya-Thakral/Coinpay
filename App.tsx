@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Alert, StatusBar, useColorScheme} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {AppProvider} from './src/context/Context';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, ThemeContext} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from './src/Components/Login/Login';
 import NetInfo from '@react-native-community/netinfo';
@@ -12,11 +12,14 @@ import {GlobalColors} from './src/constants/Colors';
 import CreateAccount from './src/Components/SignUp/CreateAccount';
 import ConfirmOtp from './src/Components/SignUp/ConfirmOtp';
 import Residence from './src/Components/SignUp/accountSetup/Residence';
+import {ThemeProvider} from './src/context/ThemeContext';
+import PersonalInfo from './src/Components/SignUp/accountSetup/PersonalInfo';
+import Email from './src/Components/SignUp/accountSetup/Email';
 
 const Stack = createStackNavigator();
 
 function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+  const theme = useColorScheme();
   const [isConnected, setIsConnected] = useState(true); // Track connection status
 
   useEffect(() => {
@@ -46,13 +49,14 @@ function App(): React.JSX.Element {
   }, [isConnected]); // Re-run effect when connection status changes
 
   const backgroundStyle = {
-    backgroundColor: isDarkMode ? GlobalColors.dark.bg : GlobalColors.light.bg,
+    backgroundColor:
+      theme === 'dark' ? GlobalColors.dark.bg : GlobalColors.light.bg,
   };
 
   const SignUpStack = () => {
     return (
       <Stack.Navigator
-        initialRouteName="Residence"
+        initialRouteName="Email"
         screenOptions={{
           headerStyle: {backgroundColor: backgroundStyle.backgroundColor},
         }}>
@@ -77,48 +81,66 @@ function App(): React.JSX.Element {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="PersonalInfo"
+          component={PersonalInfo}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Email"
+          component={Email}
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack.Navigator>
     );
   };
 
   return (
     <AppProvider>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="SignUpStack"
-          screenOptions={{
-            headerStyle: {backgroundColor: backgroundStyle.backgroundColor},
-          }}>
-          <Stack.Screen
-            name="OnBoarding"
-            component={OnBoarding}
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen
-            name="Register"
-            component={Register}
-            options={{
-              headerBackButtonDisplayMode: 'minimal',
-              headerTitle: '',
-            }}
-          />
-          <Stack.Screen
-            name="SignUpStack"
-            component={SignUpStack}
-            options={{
-              headerBackButtonDisplayMode: 'minimal',
-              headerTitle: '',
-            }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <ThemeProvider>
+        <StatusBar
+          barStyle={theme === 'dark' ? 'light-content' : 'dark-content'}
+          backgroundColor={backgroundStyle.backgroundColor}
+        />
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="SignUpStack"
+            screenOptions={{
+              headerStyle: {backgroundColor: backgroundStyle.backgroundColor},
+            }}>
+            <Stack.Screen
+              name="OnBoarding"
+              component={OnBoarding}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen
+              name="Register"
+              component={Register}
+              options={{
+                headerBackButtonDisplayMode: 'minimal',
+                headerTitle: '',
+                headerTintColor: theme === 'dark' ? 'white' : 'black',
+              }}
+            />
+            <Stack.Screen
+              name="SignUpStack"
+              component={SignUpStack}
+              options={{
+                headerBackButtonDisplayMode: 'minimal',
+                headerTitle: '',
+                headerTintColor: theme === 'dark' ? 'white' : 'black',
+              }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
     </AppProvider>
   );
 }

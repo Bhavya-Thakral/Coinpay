@@ -27,6 +27,7 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
+import { useTheme } from '../../context/ThemeContext';
 
 const {width} = Dimensions.get('window');
 
@@ -54,7 +55,8 @@ const images = [
 const OnBoarding = ({navigation}) => {
   const [index, setIndex] = useState<number>(0);
   const scrollViewRef = useRef<ScrollView>(null);
-  const theme = useColorScheme();
+  const theme = useTheme();
+  const imgTheme= useColorScheme()
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
@@ -71,7 +73,7 @@ const OnBoarding = ({navigation}) => {
       style={{
         flex: 1,
         backgroundColor:
-          theme === 'dark' ? GlobalColors.dark.bg : GlobalColors.light.bg,
+          theme.bg,
       }}>
       <SafeAreaView style={styles.container}>
         <ScrollView
@@ -95,7 +97,7 @@ const OnBoarding = ({navigation}) => {
                 gap: 30,
               }}>
               <Image
-                source={theme === 'dark' ? image.uriDark : image.uriLight}
+                source={imgTheme === 'dark' ? image.uriDark : image.uriLight}
                 style={{
                   width: responsiveScreenWidth(100),
                   height: responsiveScreenHeight(35),
@@ -163,9 +165,7 @@ const OnBoarding = ({navigation}) => {
               <Text
                 style={{
                   color:
-                    theme === 'dark'
-                      ? GlobalColors.dark.ContentPrimary
-                      : GlobalColors.light.ContentPrimary,
+                    theme.ContentPrimary,
                   fontSize: responsiveScreenFontSize(5),
                   margin: 8,
                   textAlign: 'center',

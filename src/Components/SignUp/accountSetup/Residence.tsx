@@ -1,11 +1,4 @@
-import {
-  Alert,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import CustomHeader from '../CustomHeader';
 import {
@@ -17,12 +10,20 @@ import {GlobalColors} from '../../../constants/Colors';
 import {CountryPicker} from 'react-native-country-codes-picker';
 import CustomButton from '../../../Customs/CustomButton';
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import {useTheme} from '../../../context/ThemeContext';
+import {useFinTech} from '../../../context/Context';
 
-const Residence = () => {
-  const theme = useColorScheme() || 'light';
+const Residence = ({navigation}) => {
   const [show, setShow] = useState(false);
   const [flag, setFlag] = useState('🇮🇳');
   const [countryCode, setCountryCode] = useState('India');
+  const theme = useTheme();
+  const {setcountry} = useFinTech();
+
+  const onContinue = () => {
+    setcountry(countryCode);
+    navigation.navigate('PersonalInfo');
+  };
 
   return (
     <CustomHeader>
@@ -30,118 +31,103 @@ const Residence = () => {
         style={{width: responsiveScreenWidth(90), alignSelf: 'center', gap: 5}}>
         <Text
           style={{
-            color:
-              theme === 'dark'
-                ? GlobalColors.dark.ContentPrimary
-                : GlobalColors.light.ContentPrimary,
+            color: theme.ContentPrimary,
             fontSize: responsiveScreenFontSize(3.5),
           }}>
           Country of residence
         </Text>
         <Text
           style={{
-            color:
-              theme === 'dark'
-                ? GlobalColors.dark.ContentPrimary
-                : GlobalColors.light.ContentPrimary,
+            color: theme.ContentPrimary,
             fontSize: responsiveScreenFontSize(2),
             lineHeight: 25,
           }}>
           This info need to be accurate with your ID document.
         </Text>
       </View>
-      <View style={{gap:responsiveScreenHeight(1)}}>
-        <Text
-          style={{
-            color:
-              theme === 'dark'
-                ? GlobalColors.dark.ContentPrimary
-                : GlobalColors.light.ContentPrimary,
-            fontSize: responsiveScreenFontSize(2),
-            paddingLeft:responsiveScreenWidth(5)
-          }}>Country</Text>
-        <TouchableOpacity
-          onPress={() => setShow(true)}
-          style={{
-            width: responsiveScreenWidth(90),
-            height: responsiveScreenHeight(5),
-            borderWidth: 1,
-            padding: 10,
-            borderRadius: 10,
-            borderColor:
-              theme === 'dark'
-                ? GlobalColors.dark.Border
-                : GlobalColors.light.Border,
-            alignSelf: 'center',
-            flexDirection:'row',
-            justifyContent:'space-between'
-          }}
-          >
+      <View style={{flex: 1, justifyContent: 'space-between'}}>
+        <View style={{gap: responsiveScreenHeight(1)}}>
           <Text
             style={{
-              color:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentPrimary
-                  : GlobalColors.light.ContentPrimary,
-              fontSize: responsiveScreenFontSize(1.8),
-              gap: 8,
+              color: theme.ContentPrimary,
+              fontSize: responsiveScreenFontSize(2),
+              paddingLeft: responsiveScreenWidth(5),
             }}>
-            {flag}    {countryCode}
+            Country
           </Text>
-          <Icon name="download" color={ theme === 'dark'
-                ? GlobalColors.dark.Border
-                : GlobalColors.light.Border} size={responsiveScreenFontSize(2)} />
-        </TouchableOpacity>
-        <CountryPicker
-          lang="en"
-          show={show}
-          pickerButtonOnPress={item => {
-            setFlag(item.flag);
-            setCountryCode(item.name.en);
-            setShow(false);
-          }}
+          <TouchableOpacity
+            onPress={() => setShow(true)}
+            style={{
+              width: responsiveScreenWidth(90),
+              height: responsiveScreenHeight(5),
+              borderWidth: 1,
+              padding: 10,
+              borderRadius: 10,
+              borderColor: theme.Border,
+
+              alignSelf: 'center',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingLeft: responsiveScreenWidth(4),
+              paddingRight: responsiveScreenWidth(4),
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                color: theme.ContentPrimary,
+                fontSize: responsiveScreenFontSize(1.8),
+                gap: 8,
+              }}>
+              {flag} {countryCode}
+            </Text>
+            <Icon
+              name="chevron-down"
+              color={theme.Border}
+              size={responsiveScreenFontSize(2)}
+            />
+          </TouchableOpacity>
+          <CountryPicker
+            lang="en"
+            show={show}
+            pickerButtonOnPress={item => {
+              setFlag(item.flag);
+              setCountryCode(item.name.en);
+              setShow(false);
+            }}
+            style={{
+              modal: {
+                height: responsiveScreenHeight(50),
+                backgroundColor: theme.bg,
+              },
+              itemsList: {
+                backgroundColor: theme.bg,
+              },
+              countryButtonStyles: {
+                backgroundColor: theme.bg,
+              },
+              countryName: {
+                color: theme.ContentPrimary,
+              },
+              textInput: {
+                backgroundColor: theme.bg,
+                color: theme.ContentPrimary,
+              },
+              searchMessageText: {
+                color: theme.ContentPrimary,
+              },
+            }}
+          />
+        </View>
+        <CustomButton
+          title="Continue"
+          onPress={onContinue}
           style={{
-            modal: {
-              height: responsiveScreenHeight(50),
-              backgroundColor:
-                theme === 'dark' ? GlobalColors.dark.bg : GlobalColors.light.bg,
-            },
-            itemsList: {
-              backgroundColor:
-                theme === 'dark' ? GlobalColors.dark.bg : GlobalColors.light.bg,
-            },
-            countryButtonStyles: {
-              backgroundColor:
-                theme === 'dark' ? GlobalColors.dark.bg : GlobalColors.light.bg,
-            },
-            countryName: {
-              color:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentPrimary
-                  : GlobalColors.light.ContentPrimary,
-            },
-            textInput: {
-              backgroundColor:
-                theme === 'dark' ? GlobalColors.dark.bg : GlobalColors.light.bg,
-              color:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentPrimary
-                  : GlobalColors.light.ContentPrimary,
-            },
-            searchMessageText: {
-              color:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentPrimary
-                  : GlobalColors.light.ContentPrimary,
-            },
+            width: responsiveScreenWidth(90),
+            alignSelf: 'center',
+            justifyContent: 'center',
           }}
         />
       </View>
-      <CustomButton
-        title="Continue"
-        onPress={() => Alert.alert('Continue')}
-        style={{width: responsiveScreenWidth(90), alignSelf: 'center'}}
-      />
     </CustomHeader>
   );
 };

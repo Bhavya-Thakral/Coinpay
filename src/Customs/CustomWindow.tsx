@@ -1,19 +1,19 @@
-import {StyleSheet, Text, useColorScheme, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 
 import {ReactNode} from 'react';
-import {GlobalColors} from '../constants/Colors';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
+import {useTheme} from '../context/ThemeContext';
+import { ScrollView } from 'react-native';
 
 const CustomWindow = ({children}: {children: ReactNode}) => {
-  const theme = useColorScheme() || 'light';
+  const theme = useTheme();
 
   return (
     <View
       style={[
         {
-          backgroundColor:
-            theme === 'dark' ? GlobalColors.dark.bg : GlobalColors.light.bg,
+          backgroundColor: theme.bg,
         },
         styles.main,
       ]}>

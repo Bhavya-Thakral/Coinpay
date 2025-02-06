@@ -1,5 +1,5 @@
-import {Alert, StyleSheet, Text, TextInput, useColorScheme, View} from 'react-native';
-import React, {useState} from 'react';
+import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
@@ -8,14 +8,26 @@ import {
 import {GlobalColors} from '../../constants/Colors';
 import CustomButton from '../../Customs/CustomButton';
 import CustomHeader from './CustomHeader';
+import {useTheme} from '../../context/ThemeContext';
+import {useFinTech} from '../../context/Context';
+import {verifyOtp} from '../../api/api';
 
 const ConfirmOtp = ({navigation}) => {
-  const theme = useColorScheme() || 'light';
+  const theme = useTheme();
   const [code, setCode] = useState('');
+  const {phoneNo, setUserInfo} = useFinTech();
 
-  const confirmOtp = ()=>{
-    navigation.navigate('Residence')
-  }
+  const confirmOtp = async () => {
+    try {
+      const res = await verifyOtp(phoneNo, code);
+      if (res.success) {
+        setUserInfo(res.data);
+        navigation.navigate('Residence');
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <CustomHeader>
@@ -23,10 +35,7 @@ const ConfirmOtp = ({navigation}) => {
         <Text
           style={[
             {
-              color:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentPrimary
-                  : GlobalColors.light.ContentPrimary,
+              color: theme.ContentPrimary,
             },
             styles.title,
           ]}>
@@ -35,10 +44,7 @@ const ConfirmOtp = ({navigation}) => {
         <Text
           style={[
             {
-              color:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentPrimary
-                  : GlobalColors.light.ContentPrimary,
+              color: theme.ContentPrimary,
             },
             styles.head,
           ]}>
@@ -48,23 +54,14 @@ const ConfirmOtp = ({navigation}) => {
           <TextInput
             value={code}
             onChangeText={setCode}
-            maxLength={4}
-            placeholder="XXXX"
+            maxLength={6}
+            placeholder="000000"
             keyboardType="numeric"
             style={[
               {
-                color:
-                  theme === 'dark'
-                    ? GlobalColors.dark.ContentPrimary
-                    : GlobalColors.light.ContentPrimary,
-                backgroundColor:
-                  theme === 'dark'
-                    ? GlobalColors.dark.bg
-                    : GlobalColors.light.bg,
-                borderColor:
-                  theme === 'dark'
-                    ? GlobalColors.dark.Border
-                    : GlobalColors.light.Border,
+                color: theme.ContentPrimary,
+                backgroundColor: theme.bg,
+                borderColor: theme.Border,
               },
               styles.input,
             ]}
@@ -72,14 +69,14 @@ const ConfirmOtp = ({navigation}) => {
         </View>
         <CustomButton
           onPress={() => confirmOtp()}
-          title="Continue"
+          title="Verify your number"
           style={[
-            code.length !== 4
-              ? {backgroundColor: GlobalColors.light.Border}
+            code.length !== 6
+              ? {backgroundColor: GlobalColors.light.ContentDisabled}
               : {},
             {alignSelf: 'center'},
           ]}
-          disabled={code.length !== 4}
+          disabled={code.length !== 6}
         />
       </View>
     </CustomHeader>
@@ -126,7 +123,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-bold',
   },
   input: {
-    width: responsiveScreenWidth(30),
+    width: responsiveScreenWidth(35),
     height: responsiveScreenHeight(5),
     borderRadius: 10,
     borderBottomWidth: 1,
@@ -134,6 +131,7 @@ const styles = StyleSheet.create({
     fontSize: responsiveScreenFontSize(1.8),
     fontFamily: 'Poppins',
     alignSelf: 'center',
-    letterSpacing: 18,
+    letterSpacing: 10,
+    textAlign: 'center',
   },
 });

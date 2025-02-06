@@ -41,18 +41,14 @@ const CustomModal: React.FC<CustomModalProps> = ({
         style={[
           styles.centeredView,
           {
-            backgroundColor:
-              theme === 'dark' ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)',
+            backgroundColor: theme.ModalBg,
           },
         ]}>
         <View
           style={[
             styles.modalView,
             {
-              backgroundColor:
-                theme === 'dark'
-                  ? GlobalColors.light.ContentPrimary
-                  : GlobalColors.light.bg,
+              backgroundColor: theme.ModalViewBg,
             },
           ]}>
           <TouchableOpacity
@@ -70,7 +66,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
             />
           </TouchableOpacity>
           <Image
-            source={theme === 'dark' ? modalDark : modalLight}
+            source={theme ? modalDark : modalLight}
             style={{alignSelf: 'center'}}
           />
           <Text
@@ -80,10 +76,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
               marginHorizontal: responsiveScreenWidth(6),
               marginTop: 20,
               fontFamily: 'Poppins-Bold',
-              color:
-                theme === 'dark'
-                  ? GlobalColors.light.ContentSecondary
-                  : GlobalColors.light.ContentSecondary,
+              color: theme.ContentSecondary,
             }}>
             Verify your mobile number before we send code
           </Text>
@@ -94,10 +87,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
               margin: responsiveScreenWidth(6),
               marginTop: 5,
               fontFamily: 'Poppins-Regular',
-              color:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentDisabled
-                  : GlobalColors.light.ContentDisabled,
+              color: theme.ContentDisabled,
             }}>
             Is this correct?{' '}
             <Text style={{fontWeight: '800'}}>
@@ -116,21 +106,12 @@ const CustomModal: React.FC<CustomModalProps> = ({
             onPress={() => setModalVisible(false)}
             style={{
               marginTop: 5,
-              backgroundColor:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentSecondary
-                  : GlobalColors.light.bg,
-              borderColor:
-                theme === 'dark'
-                  ? GlobalColors.dark.BorderAccent
-                  : GlobalColors.light.primaryColor,
+              backgroundColor: theme.bg,
+              borderColor: theme.primaryColor,
               borderWidth: 1,
             }}
             textStyle={{
-              color:
-                theme === 'dark'
-                  ? GlobalColors.dark.ContentAccent
-                  : GlobalColors.light.primaryColor,
+              color: theme.primaryColor,
             }}
           />
         </View>

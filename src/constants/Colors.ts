@@ -1,3 +1,5 @@
+import { Modal } from "react-native";
+
 export const GlobalColors = {
   light: {
     primaryColor: '#304FFE',
@@ -39,6 +41,8 @@ export const GlobalColors = {
     DividerError: '#FFCDD2',
     DividerSuccess: '#C8E6C9',
     DividerWarning: '#FFF3E0',
+    ModalBg:'rgba(255,255,255,0.5)',
+    ModalViewBg:'#FFFFFF'
   },
   dark: {
     primaryColor: '#304FFE',
@@ -80,5 +84,7 @@ export const GlobalColors = {
     DividerError: '#4A1E1A',
     DividerSuccess: '#1E351F',
     DividerWarning: '#4C2F0D',
+    ModalBg:'rgba(0,0,0,0.5)',
+    ModalViewBg:'#2A2A2A'
   },
 };
