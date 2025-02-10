@@ -15,6 +15,14 @@ import Residence from './src/Components/SignUp/accountSetup/Residence';
 import {ThemeProvider} from './src/context/ThemeContext';
 import PersonalInfo from './src/Components/SignUp/accountSetup/PersonalInfo';
 import Email from './src/Components/SignUp/accountSetup/Email';
+import Address from './src/Components/SignUp/accountSetup/Address';
+import CreatePasscode from './src/Components/SignUp/accountSetup/CreatePasscode';
+import Welcome from './src/Components/Welcome/Welcome';
+import Home from './src/Components/Home/Home';
+import AddCard from './src/Components/AddCard/AddCard';
+import CardDetals from './src/Components/AddCard/CardDetals';
+import List from './src/Components/AddCard/List';
+import VerifyCard from './src/Components/AddCard/VerifyCard';
 
 const Stack = createStackNavigator();
 
@@ -56,24 +64,10 @@ function App(): React.JSX.Element {
   const SignUpStack = () => {
     return (
       <Stack.Navigator
-        initialRouteName="Email"
+        initialRouteName="Residence"
         screenOptions={{
           headerStyle: {backgroundColor: backgroundStyle.backgroundColor},
         }}>
-        <Stack.Screen
-          name="CreateAccount"
-          component={CreateAccount}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="ConfirmOtp"
-          component={ConfirmOtp}
-          options={{
-            headerShown: false,
-          }}
-        />
         <Stack.Screen
           name="Residence"
           component={Residence}
@@ -95,6 +89,67 @@ function App(): React.JSX.Element {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="Address"
+          component={Address}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="CreatePasscode"
+          component={CreatePasscode}
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack.Navigator>
+    );
+  };
+
+  const CardStack = () => {
+    return (
+      <Stack.Navigator
+        initialRouteName="List"
+        screenOptions={{
+          headerStyle: {backgroundColor: backgroundStyle.backgroundColor},
+        }}>
+        <Stack.Screen
+          name="AddCard"
+          component={AddCard}
+          options={{
+            headerBackButtonDisplayMode: 'minimal',
+            headerTitle: '',
+            headerTintColor: theme === 'dark' ? 'white' : 'black',
+          }}
+        />
+        <Stack.Screen
+          name="CardDetails"
+          component={CardDetals}
+          options={{
+            headerBackButtonDisplayMode: 'minimal',
+            headerTitle: '',
+            headerTintColor: theme === 'dark' ? 'white' : 'black',
+          }}
+        />
+        <Stack.Screen
+          name="VerifyCard"
+          component={VerifyCard}
+          options={{
+            headerBackButtonDisplayMode: 'minimal',
+            headerTitle: '',
+            headerTintColor: theme === 'dark' ? 'white' : 'black',
+          }}
+        />
+        <Stack.Screen
+          name="List"
+          component={List}
+          options={{
+            headerBackButtonDisplayMode: 'minimal',
+            headerTitle: '',
+            headerTintColor: theme === 'dark' ? 'white' : 'black',
+          }}
+        />
       </Stack.Navigator>
     );
   };
@@ -108,7 +163,7 @@ function App(): React.JSX.Element {
         />
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="SignUpStack"
+            initialRouteName="CardStack"
             screenOptions={{
               headerStyle: {backgroundColor: backgroundStyle.backgroundColor},
             }}>
@@ -119,7 +174,6 @@ function App(): React.JSX.Element {
                 headerShown: false,
               }}
             />
-            <Stack.Screen name="Login" component={Login} />
             <Stack.Screen
               name="Register"
               component={Register}
@@ -130,12 +184,61 @@ function App(): React.JSX.Element {
               }}
             />
             <Stack.Screen
+              name="CreateAccount"
+              component={CreateAccount}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
               name="SignUpStack"
               component={SignUpStack}
               options={{
                 headerBackButtonDisplayMode: 'minimal',
                 headerTitle: '',
                 headerTintColor: theme === 'dark' ? 'white' : 'black',
+              }}
+            />
+            <Stack.Screen
+              name="Welcome"
+              component={Welcome}
+              options={{
+                headerBackButtonDisplayMode: 'minimal',
+                headerTitle: '',
+                headerTintColor: theme === 'dark' ? 'white' : 'black',
+              }}
+            />
+            <Stack.Screen
+              name="Login"
+              component={Login}
+              options={{
+                headerBackButtonDisplayMode: 'minimal',
+                headerTitle: '',
+                headerTintColor: theme === 'dark' ? 'white' : 'black',
+              }}
+            />
+            <Stack.Screen
+              name="ConfirmOtp"
+              component={ConfirmOtp}
+              options={{
+                headerBackButtonDisplayMode: 'minimal',
+                headerTitle: '',
+                headerTintColor: theme === 'dark' ? 'white' : 'black',
+              }}
+            />
+
+            <Stack.Screen
+              name="CardStack"
+              component={CardStack}
+              options={{
+               headerShown:false
+              }}
+            />
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              options={{
+                headerTitle: '',
               }}
             />
           </Stack.Navigator>

@@ -11,7 +11,11 @@ export const AppProvider = ({children}) => {
   const [phoneNo, setPhoneNo] = useState('');
   const [userInfo, setUserInfo] = useState();
   const [email, setemail] = useState();
-  const [address, setaddress] = useState();
+  const [address, setaddress] = useState({
+    line: '',
+    city: '',
+    postcode: '',
+  });
   const [country, setcountry] = useState();
 
   const [userForm, setUserForm] = useState({
@@ -19,6 +23,8 @@ export const AppProvider = ({children}) => {
     userName: '',
     dob: '',
   });
+
+  const [cardPhoneNo, setCardPhoneNo] = useState();
 
   const value = useMemo(
     () => ({
@@ -30,8 +36,25 @@ export const AppProvider = ({children}) => {
       setUserInfo,
       userForm,
       setUserForm,
+      email,
+      setemail,
+      address,
+      setaddress,
+      country,
+      setcountry,
+      cardPhoneNo,
+      setCardPhoneNo,
     }),
-    [currentTheme, phoneNo, userInfo, userForm],
+    [
+      currentTheme,
+      phoneNo,
+      userInfo,
+      userForm,
+      email,
+      address,
+      country,
+      cardPhoneNo,
+    ],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

@@ -15,7 +15,7 @@ const PersonalInfo = ({navigation}) => {
   const [userName, setUserName] = useState('');
   const [dob, setDob] = useState('');
 
-  const {userForm, setUserForm} = useFinTech();
+  const {setUserForm} = useFinTech();
 
   const handleDobChange = (text: string) => {
     // Remove non-numeric characters

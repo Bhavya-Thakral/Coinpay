@@ -7,9 +7,10 @@ import {
 } from 'react-native-responsive-dimensions';
 import CustomWindow from '../../Customs/CustomWindow';
 
-import { ReactNode } from 'react';
+import {ReactNode} from 'react';
 
-const CustomHeader = ({children}: {children: ReactNode}) => {
+
+const CustomHeader = ({children, style}: {children: ReactNode, style?: {}}) => {
   return (
     <CustomWindow>
       <View
@@ -25,6 +26,7 @@ const CustomHeader = ({children}: {children: ReactNode}) => {
               backgroundColor: GlobalColors.light.BorderAccent,
             },
             styles.step,
+            style
           ]}
         />
       </View>
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
     height: responsiveScreenHeight(0.4),
   },
   step: {
-    width: responsiveScreenWidth(10),
+    width: responsiveScreenWidth(25),
     height: responsiveScreenHeight(0.4),
     borderRadius: 50,
   },

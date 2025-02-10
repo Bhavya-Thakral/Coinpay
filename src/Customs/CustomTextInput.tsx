@@ -17,8 +17,11 @@ interface CustomTextInputProps {
   placeholderText: string;
   keyboardType: KeyboardTypeOptions;
   maxLength: number;
-  onChangeText: (text:string | number | any) => void;
-  value:any
+  onChangeText: (text: string | number | any) => void;
+  value: any;
+  multiline?: boolean;
+  secureTextEntry?:boolean
+  style?:{}
 }
 
 const CustomTextInput: React.FC<CustomTextInputProps> = ({
@@ -26,7 +29,10 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
   keyboardType,
   maxLength,
   onChangeText,
-  value
+  value,
+  multiline = false,
+  secureTextEntry = false,
+  style
 }) => {
   const theme = useTheme();
   return (
@@ -37,6 +43,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
           borderColor: theme.Border,
           color: theme.ContentPrimary,
         },
+        style
       ]}
       placeholder={placeholderText}
       placeholderTextColor={theme.ContentDisabled}
@@ -44,6 +51,8 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
       maxLength={maxLength}
       onChangeText={onChangeText}
       value={value}
+      multiline={multiline}
+      secureTextEntry={secureTextEntry}
     />
   );
 };

@@ -18,6 +18,7 @@ interface CustomScreenProps {
   loading?: boolean;
   style?: {};
   textStyle?: {};
+  headerStyle?:{}
 }
 
 const CustomScreen: React.FC<CustomScreenProps> = ({
@@ -30,11 +31,12 @@ const CustomScreen: React.FC<CustomScreenProps> = ({
   loading,
   style,
   textStyle,
+  headerStyle
 }) => {
   const theme = useTheme();
 
   return (
-    <CustomHeader>
+    <CustomHeader style={headerStyle}>
       <View
         style={{width: responsiveScreenWidth(90), alignSelf: 'center', gap: 5}}>
         <Text

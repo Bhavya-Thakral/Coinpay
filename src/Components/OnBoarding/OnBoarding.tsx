@@ -27,7 +27,7 @@ import {
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import { useTheme } from '../../context/ThemeContext';
+import {useTheme} from '../../context/ThemeContext';
 
 const {width} = Dimensions.get('window');
 
@@ -56,7 +56,7 @@ const OnBoarding = ({navigation}) => {
   const [index, setIndex] = useState<number>(0);
   const scrollViewRef = useRef<ScrollView>(null);
   const theme = useTheme();
-  const imgTheme= useColorScheme()
+  const imgTheme = useColorScheme();
 
   const handleScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
     const contentOffsetX = event.nativeEvent.contentOffset.x;
@@ -72,8 +72,7 @@ const OnBoarding = ({navigation}) => {
     <GestureHandlerRootView
       style={{
         flex: 1,
-        backgroundColor:
-          theme.bg,
+        backgroundColor: theme.bg,
       }}>
       <SafeAreaView style={styles.container}>
         <ScrollView
@@ -164,8 +163,7 @@ const OnBoarding = ({navigation}) => {
               </View>
               <Text
                 style={{
-                  color:
-                    theme.ContentPrimary,
+                  color: theme.ContentPrimary,
                   fontSize: responsiveScreenFontSize(5),
                   margin: 8,
                   textAlign: 'center',

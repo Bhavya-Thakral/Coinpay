@@ -1,39 +1,34 @@
-import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {useState} from 'react';
+import {useTheme} from '../../context/ThemeContext';
+import {useFinTech} from '../../context/Context';
+import {verifyOtp} from '../../api/api';
+import CustomButton from '../../Customs/CustomButton';
+import {GlobalColors} from '../../constants/Colors';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
-import {GlobalColors} from '../../constants/Colors';
-import CustomButton from '../../Customs/CustomButton';
-import CustomHeader from './CustomHeader';
-import {useTheme} from '../../context/ThemeContext';
-import {useFinTech} from '../../context/Context';
-import {verifyOtp} from '../../api/api';
+import CustomWindow from '../../Customs/CustomWindow';
 
-const ConfirmOtp = ({navigation}) => {
+const VerifyCard = ({navigation}) => {
   const theme = useTheme();
   const [code, setCode] = useState('');
-  const {phoneNo, setUserInfo} = useFinTech();
+  const {cardPhoneNo} = useFinTech();
 
   const confirmOtp = async () => {
     try {
-      const res = await verifyOtp(phoneNo, code);
-      if (res.userExists) {
-        setUserInfo(res.data);
-        navigation.navigate('CardStack');
-      } else {
-        setUserInfo(res.data);
-        navigation.navigate('SignUpStack');
+      const res = await verifyOtp(cardPhoneNo, code);
+      if (res.success) {
+        navigation.navigate('List');
       }
     } catch (err) {
       console.log(err);
     }
   };
-
   return (
-    <CustomHeader>
+    <CustomWindow>
       <View style={styles.view}>
         <Text
           style={[
@@ -51,7 +46,7 @@ const ConfirmOtp = ({navigation}) => {
             },
             styles.head,
           ]}>
-          We have sent a 6 digit code to {phoneNo}
+          We have sent a 6 digit code to {cardPhoneNo}
         </Text>
         <View style={styles.phone}>
           <TextInput
@@ -72,7 +67,7 @@ const ConfirmOtp = ({navigation}) => {
         </View>
         <CustomButton
           onPress={() => confirmOtp()}
-          title="Verify your number"
+          title="Verify"
           style={[
             code.length !== 6
               ? {backgroundColor: GlobalColors.light.ContentDisabled}
@@ -82,10 +77,11 @@ const ConfirmOtp = ({navigation}) => {
           disabled={code.length !== 6}
         />
       </View>
-    </CustomHeader>
+    </CustomWindow>
   );
 };
-export default ConfirmOtp;
+
+export default VerifyCard;
 
 const styles = StyleSheet.create({
   main: {

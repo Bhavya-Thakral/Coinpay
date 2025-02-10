@@ -6,6 +6,7 @@ import {
   Text,
   Touchable,
   TouchableOpacity,
+  useColorScheme,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {
@@ -35,6 +36,8 @@ const CustomModal: React.FC<CustomModalProps> = ({
   setModalVisible,
   navOtp,
 }) => {
+    const imgTheme = useColorScheme();
+  
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
       <View
@@ -66,7 +69,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
             />
           </TouchableOpacity>
           <Image
-            source={theme ? modalDark : modalLight}
+            source={imgTheme === 'dark' ? modalDark : modalLight}
             style={{alignSelf: 'center'}}
           />
           <Text
