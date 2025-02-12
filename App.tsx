@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Alert, StatusBar, useColorScheme} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
 import {AppProvider} from './src/context/Context';
-import {NavigationContainer, ThemeContext} from '@react-navigation/native';
+import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import Login from './src/Components/Login/Login';
 import NetInfo from '@react-native-community/netinfo';
@@ -231,7 +231,7 @@ function App(): React.JSX.Element {
               name="CardStack"
               component={CardStack}
               options={{
-               headerShown:false
+                headerShown: false,
               }}
             />
             <Stack.Screen

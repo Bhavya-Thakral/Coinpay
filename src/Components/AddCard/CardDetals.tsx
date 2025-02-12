@@ -20,7 +20,7 @@ const CardDetals = ({navigation}) => {
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');
-  const {setCardPhoneNo}=useFinTech()
+  const {setCardPhoneNo,setCardDetails}=useFinTech()
 
   const handleCardChange = (text: string) => {
     const cleared = text.replace(/\D/g, '');
@@ -55,6 +55,12 @@ const CardDetals = ({navigation}) => {
 
   const navList = ()=>{
     setCardPhoneNo(email);
+    setCardDetails({
+          cardNumber:'',
+          expiry:'',
+          cvv:''
+        
+    })
     navigation.navigate('VerifyCard')
   }
 

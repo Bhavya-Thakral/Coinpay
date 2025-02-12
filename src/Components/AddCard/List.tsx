@@ -8,6 +8,7 @@ import {
   responsiveScreenWidth,
 } from 'react-native-responsive-dimensions';
 import {SwipeListView} from 'react-native-swipe-list-view';
+import Icon from 'react-native-vector-icons/FontAwesome6';
 
 const List = () => {
   const theme = useTheme();
@@ -77,25 +78,30 @@ const List = () => {
                   },
                   {
                     backgroundColor: theme.ContentDisabled,
-                    height: responsiveScreenHeight(5),
-                    borderRadius: 5,
-                    padding: responsiveScreenWidth(2),
-                    justifyContent: 'center',
+                   
                   },
                 ]}>
                 <Text>{item.text}</Text>
               </Animated.View>
             )}
             renderHiddenItem={({item}) => (
-              <View style={styles.rowBack}>
-                <TouchableOpacity
-                  style={styles.deleteButton}
-                  onPress={() => handleDelete(item.id)}>
-                  <Text style={styles.deleteText}>Delete</Text>
+              <View
+                style={[
+                  styles.rowBack,
+                  {
+                    backgroundColor: theme.DividerError,
+                  },
+                ]}>
+                <TouchableOpacity onPress={() => handleDelete(item.id)}>
+                  <Icon
+                    color={theme.ContentError}
+                    name={'trash'}
+                    size={20}
+                  />
                 </TouchableOpacity>
               </View>
             )}
-            rightOpenValue={-75} // Slide threshold
+            rightOpenValue={-50} // Slide threshold
           />
         </View>
       </View>
@@ -122,24 +128,22 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
   },
   rowFront: {
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    height: responsiveScreenHeight(5),
+    borderRadius: 10,
+    padding: responsiveScreenWidth(2),
+    marginBottom: responsiveScreenWidth(2),
+    justifyContent: 'center',
   },
   rowBack: {
-    backgroundColor: 'red',
+    borderRadius: 10,
     alignItems: 'center',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingRight: 15,
-  },
-  deleteButton: {
-    backgroundColor: 'red',
-    padding: 20,
-  },
-  deleteText: {
-    color: '#fff',
-    fontWeight: 'bold',
+    height: responsiveScreenHeight(5),
+    padding: responsiveScreenWidth(2),
+    paddingRight: responsiveScreenWidth(4),
+
+    marginBottom: responsiveScreenWidth(2),
   },
 });

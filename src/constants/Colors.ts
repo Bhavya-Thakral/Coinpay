@@ -26,7 +26,7 @@ export const GlobalColors = {
     ContentDisabled: '#B8B8B8',
     ContentAccent: '#1E3AE5',
     ContentSecondaryColor: '#F57F17',
-    ContentErrorContentWarning: '#B71B1C',
+    ContentError: '#B71B1C',
     ContentSuccess: '#1B5E21',
     ContentWarning: '#983301',
     ContentOnColor: '#FFFFFF',

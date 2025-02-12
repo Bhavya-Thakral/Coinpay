@@ -25,6 +25,7 @@ export const AppProvider = ({children}) => {
   });
 
   const [cardPhoneNo, setCardPhoneNo] = useState();
+  const [cardDetails, setCardDetails] = useState();
 
   const value = useMemo(
     () => ({
@@ -44,6 +45,8 @@ export const AppProvider = ({children}) => {
       setcountry,
       cardPhoneNo,
       setCardPhoneNo,
+      cardDetails,
+      setCardDetails,
     }),
     [
       currentTheme,
@@ -54,6 +57,7 @@ export const AppProvider = ({children}) => {
       address,
       country,
       cardPhoneNo,
+      cardDetails,
     ],
   );
 
