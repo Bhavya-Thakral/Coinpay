@@ -19,6 +19,7 @@ import {useTheme} from '../../context/ThemeContext';
 import {getOtp} from '../../api/api';
 import {useFinTech} from '../../context/Context';
 import CustomHeader from './CustomHeader';
+import Toast from 'react-native-toast-message';
 
 const CreateAccount = ({navigation}) => {
   const theme = useTheme();
@@ -27,21 +28,35 @@ const CreateAccount = ({navigation}) => {
   const [countryCode, setCountryCode] = useState('+91');
   const [phone, setPhone] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const {phoneNo, setPhoneNo} = useFinTech();
+  const {setPhoneNo} = useFinTech();
+  const [loading, setLoading] = useState(false);
 
   const setModal = (visible: boolean) => {
     setModalVisible(visible);
   };
 
   const navOtp = async () => {
+    setLoading(true);
     try {
       const data = await getOtp(phone);
       if (data.success) {
         setPhoneNo(phone.toString());
+        Toast.show({
+          type: 'success',
+          text1: 'OTP sent successfully!',
+        });
         setModalVisible(false);
+        setLoading(false);
         navigation.navigate('ConfirmOtp');
       }
-    } catch (err) {}
+    } catch (err) {
+      Toast.show({
+        type: 'error',
+        text1: 'Unable to send OTP!',
+      });
+      setLoading(false);
+      setModalVisible(false);
+    }
   };
 
   return (
@@ -164,6 +179,7 @@ const CreateAccount = ({navigation}) => {
         theme={theme}
         setModalVisible={setModal}
         navOtp={navOtp}
+        load={loading}
       />
     </CustomHeader>
   );

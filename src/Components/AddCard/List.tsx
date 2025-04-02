@@ -1,5 +1,5 @@
 import {Animated, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import CustomWindow from '../../Customs/CustomWindow';
 import {useTheme} from '../../context/ThemeContext';
 import {
@@ -9,16 +9,37 @@ import {
 } from 'react-native-responsive-dimensions';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import Icon from 'react-native-vector-icons/FontAwesome6';
+import {useFinTech} from '../../context/Context';
+import CustomButton from '../../Customs/CustomButton';
+import Toast from 'react-native-toast-message';
 
-const List = () => {
+const List = ({navigation}) => {
   const theme = useTheme();
   const rowTranslateAnimatedValues: {[key: string]: Animated.Value} = {};
+  const {cardDetails} = useFinTech();
+
+  useEffect(()=>{
+    const showToast = () => {
+      Toast.show({
+        type: 'success',
+        text1: 'Your Card added successfully!',
+       
+      });
+    }
+    showToast()
+  },[]);
 
   const [data, setData] = useState([
-    {id: '1', text: 'Item 1'},
-    {id: '2', text: 'Item 2'},
-    {id: '3', text: 'Item 3'},
+    {
+      id: 1,
+      // text: cardDetails.cardNumber,
+      text:'hello'
+    },
   ]);
+
+  const navDetails = () => {
+    navigation.navigate('CardDetails');
+  };
 
   data.forEach(item => {
     rowTranslateAnimatedValues[item.id] = new Animated.Value(1);
@@ -55,20 +76,10 @@ const List = () => {
           ]}>
           Below are the Cards added
         </Text>
-        <View style={{flex: 1}}>
-          {/* <View
-            style={{
-              backgroundColor: theme.ContentDisabled,
-              height: responsiveScreenHeight(5),
-              borderRadius:5,
-              padding:responsiveScreenWidth(2),
-            justifyContent:"center"
-            }}>
-            <Text style={{color: 'white'}}>hello</Text>
-          </View> */}
+        <View style={{flex: 9 / 12, marginTop: responsiveScreenHeight(2)}}>
           <SwipeListView
             data={data}
-            keyExtractor={item => item.id}
+            keyExtractor={item => item.id.toString()}
             renderItem={({item}) => (
               <Animated.View
                 style={[
@@ -78,10 +89,17 @@ const List = () => {
                   },
                   {
                     backgroundColor: theme.ContentDisabled,
-                   
                   },
                 ]}>
-                <Text>{item.text}</Text>
+                <Text
+                  style={[
+                    {
+                      color: theme.ContentPrimary,
+                    },
+                    styles.cardNumber,
+                  ]}>
+                  {item.text}
+                </Text>
               </Animated.View>
             )}
             renderHiddenItem={({item}) => (
@@ -93,16 +111,28 @@ const List = () => {
                   },
                 ]}>
                 <TouchableOpacity onPress={() => handleDelete(item.id)}>
-                  <Icon
-                    color={theme.ContentError}
-                    name={'trash'}
-                    size={20}
-                  />
+                  <Icon color={theme.ContentError} name={'trash'} size={20} />
                 </TouchableOpacity>
               </View>
             )}
             rightOpenValue={-50} // Slide threshold
           />
+        </View>
+        <View>
+          <CustomButton
+            title="+  Add your card"
+            onPress={navDetails}
+            style={{
+              marginBottom: 0,
+              backgroundColor: theme.bg,
+              borderColor: theme.primaryColor,
+              borderWidth: 1,
+            }}
+            textStyle={{
+              color: theme.primaryColor,
+            }}
+          />
+          <CustomButton onPress={() => {}} title="Continue" />
         </View>
       </View>
     </CustomWindow>
@@ -128,7 +158,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-SemiBold',
   },
   rowFront: {
-    height: responsiveScreenHeight(5),
+    // height: responsiveScreenHeight(5),
     borderRadius: 10,
     padding: responsiveScreenWidth(2),
     marginBottom: responsiveScreenWidth(2),
@@ -145,5 +175,11 @@ const styles = StyleSheet.create({
     paddingRight: responsiveScreenWidth(4),
 
     marginBottom: responsiveScreenWidth(2),
+  },
+  cardNumber: {
+    fontFamily: 'Poppins',
+    fontWeight: '400',
+    fontSize: responsiveScreenFontSize(2),
+    paddingVertical: responsiveScreenWidth(1),
   },
 });

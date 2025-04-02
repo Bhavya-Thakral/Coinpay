@@ -56,9 +56,9 @@ const CardDetals = ({navigation}) => {
   const navList = ()=>{
     setCardPhoneNo(email);
     setCardDetails({
-          cardNumber:'',
-          expiry:'',
-          cvv:''
+          cardNumber:cardNumber,
+          expiry:expiryDate,
+          cvv:cvv
         
     })
     navigation.navigate('VerifyCard')

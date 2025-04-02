@@ -1,4 +1,9 @@
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from 'react-native';
 import React from 'react';
 import {GlobalColors} from '../constants/Colors';
 import {
@@ -32,7 +37,11 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       style={[styles.container, style]}
       disabled={disabled || loading}
       {...props}>
-      <Text style={[styles.text, textStyle]}>{title}</Text>
+      {loading ? (
+        <ActivityIndicator size={18} color={GlobalColors.light.ContentOnColor} />
+      ) : (
+        <Text style={[styles.text, textStyle]}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };

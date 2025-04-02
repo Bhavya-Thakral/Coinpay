@@ -1,4 +1,3 @@
-import { Modal } from "react-native";
 
 export const GlobalColors = {
   light: {

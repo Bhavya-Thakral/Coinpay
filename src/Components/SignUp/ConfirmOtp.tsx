@@ -1,5 +1,5 @@
 import {Alert, StyleSheet, Text, TextInput, View} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
   responsiveScreenFontSize,
   responsiveScreenHeight,
@@ -11,25 +11,32 @@ import CustomHeader from './CustomHeader';
 import {useTheme} from '../../context/ThemeContext';
 import {useFinTech} from '../../context/Context';
 import {verifyOtp} from '../../api/api';
+import Toast from 'react-native-toast-message';
 
 const ConfirmOtp = ({navigation}) => {
   const theme = useTheme();
   const [code, setCode] = useState('');
   const {phoneNo, setUserInfo} = useFinTech();
+  const [loading, setLoading] = useState(false);
 
   const confirmOtp = async () => {
+    Alert.alert("here")
+    setLoading(true);
     try {
       const res = await verifyOtp(phoneNo, code);
       if (res.userExists) {
         setUserInfo(res.data);
+        setLoading(false);
         navigation.navigate('CardStack');
       } else {
         setUserInfo(res.data);
         navigation.navigate('SignUpStack');
       }
-    } catch (err) {
-      console.log(err);
-    }
+      Toast.show({
+        type: 'error',
+        text1: 'please check OTP',
+      });
+    } catch (err) {}
   };
 
   return (
@@ -80,6 +87,7 @@ const ConfirmOtp = ({navigation}) => {
             {alignSelf: 'center'},
           ]}
           disabled={code.length !== 6}
+          loading={loading}
         />
       </View>
     </CustomHeader>

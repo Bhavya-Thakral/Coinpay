@@ -23,6 +23,8 @@ import AddCard from './src/Components/AddCard/AddCard';
 import CardDetals from './src/Components/AddCard/CardDetals';
 import List from './src/Components/AddCard/List';
 import VerifyCard from './src/Components/AddCard/VerifyCard';
+import Toast from 'react-native-toast-message';
+import toastConfig from './src/Customs/CustomToast';
 
 const Stack = createStackNavigator();
 
@@ -110,7 +112,7 @@ function App(): React.JSX.Element {
   const CardStack = () => {
     return (
       <Stack.Navigator
-        initialRouteName="List"
+        initialRouteName="AddCard"
         screenOptions={{
           headerStyle: {backgroundColor: backgroundStyle.backgroundColor},
         }}>
@@ -163,7 +165,7 @@ function App(): React.JSX.Element {
         />
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="CardStack"
+            initialRouteName="OnBoarding"
             screenOptions={{
               headerStyle: {backgroundColor: backgroundStyle.backgroundColor},
             }}>
@@ -187,7 +189,9 @@ function App(): React.JSX.Element {
               name="CreateAccount"
               component={CreateAccount}
               options={{
-                headerShown: false,
+                headerBackButtonDisplayMode: 'minimal',
+                headerTitle: '',
+                headerTintColor: theme === 'dark' ? 'white' : 'black',
               }}
             />
             <Stack.Screen
@@ -242,6 +246,7 @@ function App(): React.JSX.Element {
               }}
             />
           </Stack.Navigator>
+          <Toast config={toastConfig}/>
         </NavigationContainer>
       </ThemeProvider>
     </AppProvider>

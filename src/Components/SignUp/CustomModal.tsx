@@ -4,11 +4,10 @@ import {
   Image,
   View,
   Text,
-  Touchable,
   TouchableOpacity,
   useColorScheme,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   responsiveScreenHeight,
   responsiveScreenWidth,
@@ -26,6 +25,7 @@ interface CustomModalProps {
   code: string;
   setModalVisible: (visible: boolean) => void;
   navOtp: () => void;
+  load: boolean;
 }
 
 const CustomModal: React.FC<CustomModalProps> = ({
@@ -35,9 +35,10 @@ const CustomModal: React.FC<CustomModalProps> = ({
   code,
   setModalVisible,
   navOtp,
+  load,
 }) => {
-    const imgTheme = useColorScheme();
-  
+  const imgTheme = useColorScheme();
+
   return (
     <Modal visible={visible} transparent={true} animationType="slide">
       <View
@@ -103,6 +104,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
             style={{
               marginBottom: 0,
             }}
+            loading={load}
           />
           <CustomButton
             title="No"

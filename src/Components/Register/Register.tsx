@@ -21,7 +21,7 @@ const Register = ({navigation}) => {
     navigation.navigate('Login');
   };
   const navSignUp = () => {
-    navigation.navigate('SignUpStack');
+    navigation.navigate('CreateAccount');
   };
   return (
     <CustomHeader>
