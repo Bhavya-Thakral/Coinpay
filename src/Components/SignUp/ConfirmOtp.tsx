@@ -33,10 +33,18 @@ const ConfirmOtp = ({navigation}) => {
         navigation.navigate('SignUpStack');
       }
       Toast.show({
-        type: 'error',
-        text1: 'please check OTP',
+        type: 'success',
+        text1: 'OTP verified successfully',
       });
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+      Toast.show({
+        type: 'error',
+        text1: 'Error verifying OTP',
+        text2: 'Please try again.',
+      });
+    }
   };
 
   return (

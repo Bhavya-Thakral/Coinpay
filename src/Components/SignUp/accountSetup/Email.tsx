@@ -12,9 +12,11 @@ const Email = ({navigation}) => {
 
   const [email, setEmail] = useState('');
   const {setemail} = useFinTech();
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const setUser = () => {
     setemail(email);
+    navigation.navigate('Welcome');
   };
 
   return (
@@ -23,7 +25,7 @@ const Email = ({navigation}) => {
       onPress={setUser}
       title="Continue"
       style={[
-        email.length === 0 ? {backgroundColor: GlobalColors.light.ContentDisabled} : {},
+        email.length === 0 && emailRegex.test(email) ? {backgroundColor: GlobalColors.light.ContentDisabled} : {},
         {alignSelf: 'center'},
       ]}
       disabled={email.length === 0}>
